@@ -44,6 +44,16 @@ const record = [
 ]
 
 Producer.send(record, () => console.log('message sent'))
+
+const deferredOpts = {
+  topic = 'defer_messages', // default is 'defer_messages'
+  identifier: 'foobar-id', // required
+  delay: 200 // seconds,
+  ttl: -1 // no ttl,
+  batch = false
+}
+
+Producer.defer(record, deferredOpts, () => console.log('deferred message sent'))
 ```
 
 ### `Kafka.getNewConsumer(ConsumerOptions = {})`

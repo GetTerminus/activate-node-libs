@@ -18,6 +18,32 @@ class KafkaClient {
     // Return wrapper around producer, including a refresh function
     return {
       send: producer.send.bind(producer),
+      defer: (messagesToDefer = [], options = {}, cb) => {
+        const {
+          topic = 'defer_messages',
+          identifier,
+          delay = 300, // seconds to move the sliding window
+          batch = false,
+          ttl = -1
+        } = options
+
+        if (!messagesToDefer || !Array.isArray(messagesToDefer) || messagesToDefer.length < 1 || !identifier) {
+          console.log('deferred message params', messagesToDefer, options)
+          throw new Error('Invalid deferred message params')
+        }
+
+        const deferredMsg = {
+          topic,
+          messages: [{
+            identifier,
+            delay,
+            messages: messagesToDefer,
+            batch,
+            ttl
+          }]
+        }
+        return producer.send(deferredMsg, cb)
+      },
       on: producer.on.bind(producer),
       close: producer.close.bind(producer),
       refresh: kClient.refreshMetadata.bind(kClient)
