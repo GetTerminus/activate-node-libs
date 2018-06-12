@@ -1,0 +1,31 @@
+{
+  "name": "sigstr-node-libs",
+  "version": "1.0.0",
+  "description": "### collection of reusable node libraries",
+  "main": "index.js",
+  "scripts": {
+    "test-logger": "cd ./src/logger && mocha && cd ../../"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://Austen_Lacy@bitbucket.org/sigstr/node-libs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/sigstr/node-libs#readme",
+  "devDependencies": {
+    "babel-eslint": "^8.2.3",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb": "^11.1.0",
+    "eslint-plugin-import": "^1.14.0",
+    "eslint-plugin-jsx-a11y": "^2.2.1",
+    "eslint-plugin-react": "^7.7.0",
+    "mocha": "^5.2.0"
+  },
+  "dependencies": {
+    "kafka-node": "^2.6.1",
+    "chalk": "^2.4.1",
+    "moment": "^2.22.1",
+    "redis": "^2.8.0"
+  }
+}
