@@ -13,6 +13,8 @@ class Redis {
 
     // Return wrapper the redis client for simple access to functions we want to expose
     return {
+      on: this.Client.on.bind(this),
+      Client: this.Client,
       shutdown: this.Client.quit()
     }
   }
