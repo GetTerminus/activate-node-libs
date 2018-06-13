@@ -20,7 +20,7 @@ class KafkaClient {
       send: producer.send.bind(producer),
       defer: (messagesToDefer = [], options = {}, cb) => {
         const {
-          topic = 'defer_messages',
+          topic = 'messages.defer',
           identifier,
           delay = 300, // seconds to move the sliding window
           batch = false,
