@@ -15,7 +15,7 @@ class Redis {
     return {
       on: this.Client.on.bind(this),
       Client: this.Client,
-      shutdown: this.Client.quit()
+      shutdown: this.Client.quit
     }
   }
 }
