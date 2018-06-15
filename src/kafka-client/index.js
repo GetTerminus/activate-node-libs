@@ -32,7 +32,7 @@ class KafkaClient {
           throw new Error('Invalid deferred message params')
         }
 
-        const deferredMsg = {
+        const deferredMsg = [{
           topic,
           messages: [{
             identifier,
@@ -41,7 +41,8 @@ class KafkaClient {
             batch,
             ttl
           }]
-        }
+        }]
+
         return producer.send(deferredMsg, cb)
       },
       on: producer.on.bind(producer),
