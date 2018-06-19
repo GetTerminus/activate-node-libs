@@ -66,7 +66,7 @@ class KafkaClient {
     // An array of partition assignment protocols ordered by preference.
     // 'roundrobin' or 'range' string for built-ins
     protocol = ['roundrobin'],
-    fromOffset = 'none',
+    fromOffset = 'latest',
     // asyncPush = false,
     autoCommitIntervalMs = 5000,
     fetchMaxWaitMs = 100,
