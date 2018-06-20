@@ -1,4 +1,5 @@
 const kafka = require('kafka-node')
+const SerialKafkaConsumer = require('./serialKafkaConsumer')
 
 class KafkaClient {
   static getNewProducer({
@@ -59,8 +60,8 @@ class KafkaClient {
   static getNewConsumer({
     // accepts either an array of topics or comma delimited string of topics
     topics = null,
-    kafkaHost = 'localhost:9092',
-    consumerGroupId = 'kafka-node',
+    host = 'localhost:9092',
+    groupId = 'kafka-node',
     // Auto commit messages or not
     autoCommit = true,
     // An array of partition assignment protocols ordered by preference.
@@ -68,8 +69,8 @@ class KafkaClient {
     protocol = ['roundrobin'],
     fromOffset = 'latest',
     // asyncPush = false,
-    autoCommitIntervalMs = 5000,
-    fetchMaxWaitMs = 100,
+    autoCommitInterval = 5000,
+    fetchMaxWait = 100,
     // minimum number of bytes of messages that must be available to give a response
     fetchMinBytes = 1,
     // maximum bytes to include in the message set for this partition
@@ -77,26 +78,19 @@ class KafkaClient {
     // If set to 'buffer', values will be returned as raw buffer objects.
     encoding = 'utf8'
   }) {
-    if (!topics || topics.length < 1) {
-      throw new Error('Unable to create consumer group. No topics provided.')
-    }
-
-    const topicsToConsume = typeof topics === 'string' ? topics.split(',') : topics
-
-    const opts = {
-      kafkaHost,
-      groupId: consumerGroupId,
+    return new SerialKafkaConsumer({
+      topics,
+      host,
+      groupId,
       autoCommit,
       protocol,
       fromOffset,
-      autoCommitIntervalMs,
+      autoCommitInterval,
+      fetchMaxWait,
+      fetchMinBytes,
       fetchMaxBytes,
-      fetchMaxWaitMs,
-      encoding,
-      fetchMinBytes
-    }
-
-    return new kafka.ConsumerGroup(opts, topicsToConsume)
+      encoding
+    })
   }
 }
 

@@ -130,7 +130,7 @@ class SerialKafkaConsumer extends EventEmitter {
   }
 
   // Emitted once kafka has finished its batch collect, start sending messages to consumers synchronously
-  onDone(message) {
+  onDone() {
   }
 
   // Starts up the callbacks for the various consumer group events
@@ -139,6 +139,11 @@ class SerialKafkaConsumer extends EventEmitter {
     this.consumerGroup.on('connect', this.onConnect.bind(this))
     this.consumerGroup.on('message', this.onMessage.bind(this))
     this.consumerGroup.on('done', this.onDone.bind(this))
+    this.on('removeListener', (event) => {
+      if (event === 'message' && this.listenerCount() === 0) {
+        this.queue.pause()
+      }
+    })
   }
 
   // Refreshes the clients metadata, seems to be necessary the first time
@@ -148,7 +153,7 @@ class SerialKafkaConsumer extends EventEmitter {
         this.onError(err)
       }
       cb(err)
-    });
+    })
   }
 
   // The message succeeded, emit ack event and keep going
