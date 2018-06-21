@@ -88,7 +88,7 @@ class Logger extends Writable {
         if (msg.data && msg.data.error) {
           ret = `${ret}\n\t${chalk.red(`${msg.data.error.name}: ${msg.data.error.message}`)}`
         }
-        if (msg.level === 'DEBUG' && msg.data) {
+        if (msg.data) {
           ret = `${ret}${Object.keys(msg.data).map(k => `\n\t${chalk.blue(`${k}:`)} ${JSON.stringify(msg.data[k])}`).join('')}`
         }
         return ret
