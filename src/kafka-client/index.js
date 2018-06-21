@@ -39,13 +39,13 @@ class KafkaClient {
 
         const deferredMsg = [{
           topic,
-          messages: [{
+          messages: [JSON.stringify({
             identifier,
             delay,
             messages: messagesToDefer,
             batch,
             ttl
-          }]
+          })]
         }]
 
         return producer.send(deferredMsg, cb)
