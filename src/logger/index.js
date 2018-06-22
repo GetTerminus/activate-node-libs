@@ -1,6 +1,7 @@
 const { Writable } = require('stream')
 const moment = require('moment')
 const chalk = require('chalk')
+const HoneyBadger = require('honeybadger')
 
 const LOG_LEVELS = { DEBUG: 1, INFO: 2, WARN: 3, ERROR: 4 }
 const DATE_TIME_FORMAT = 'YYYY-MM-DDTHH:mm:ss.SSS'
@@ -9,7 +10,9 @@ const ORIGINAL_STD_OUT_WRITE = process.stdout.write.bind(process.stdout)
 const DEFAULT_LOG_OPTIONS = {
   minLevel: 'DEBUG',
   format: 'JSON',
-  interceptVendorLogs: false
+  interceptVendorLogs: false,
+  honeyBadgerApiKey: null,
+  honeyBadgerOpts: {}
 }
 
 class Log {
@@ -52,6 +55,13 @@ class Logger extends Writable {
     this.options = Object.assign({}, DEFAULT_LOG_OPTIONS, options)
     if (this.options.interceptVendorLogs) {
       this._interceptVendorLogs()
+    }
+    this.honeybadger = null
+
+    const hbApiKey = this.options.honeyBadgerApiKey || process.env.HONEYBADGER_API_KEY
+    if (hbApiKey && hbApiKey.length > 0) {
+      const hbOpts = Object.assign({}, { apiKey: hbApiKey }, this.options.honeyBadgerOpts)
+      this.honeybadger = HoneyBadger.factory(hbOpts)
     }
   }
 
@@ -131,8 +141,12 @@ class Logger extends Writable {
     this.log('WARN', message)
   }
 
-  error(message, err) {
+  error(message, err, hbMetadata = {}) {
     this.log('ERROR', message, { error: err })
+
+    if (this.honeybadger) {
+      this.honeybadger.notify(err, Object.assign({}, { message }, hbMetadata))
+    }
   }
 }
 

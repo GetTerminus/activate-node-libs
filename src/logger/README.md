@@ -1,5 +1,10 @@
 # Logger
 
+## Honeybadger
+
+Supports [Honeybadger](https://www.honeybadger.io/) error logging. You can pass in honey badger options via the constructor or you can set
+`process.env.HONEYBADGER_API_KEY` and all error logs will be sent to honey badger.
+
 ## Example
 
 ```javascript
@@ -30,7 +35,7 @@ logger.info('Some info message')
 logger.warn('Some warn message')
 
 // Log at error level
-logger.error('Some error message', err)
+logger.error('Some error message', err, honebadgerMetadata)
 
 // Log at any level
 logger.log('DEBUG', 'Some message', otherData)
