@@ -25,6 +25,7 @@
   "dependencies": {
     "async": "^2.6.1",
     "chalk": "^2.4.1",
+    "instrumental-agent": "^2.1.0",
     "kafka-node": "^2.6.1",
     "lodash": "^4.17.10",
     "moment": "^2.22.1",

@@ -1,5 +1,24 @@
 const kafka = require('kafka-node')
 const SerialKafkaConsumer = require('./serialKafkaConsumer')
+const I = require('instrumental-agent')
+
+// Get Instrumental configuration params
+const {
+  INSTRUMENTAL_API_KEY,
+  INSTRUMENTAL_HOST,
+  INSTRUMENTAL_ENABLED,
+  INSTRUMENTAL_TIMEOUT
+} = process.env
+
+const parsedTimeout = parseInt(INSTRUMENTAL_TIMEOUT || 10000, 10)
+
+// Configure Instrumental
+I.configure({
+  apiKey: INSTRUMENTAL_API_KEY || '',
+  host: INSTRUMENTAL_HOST || 'collector.instrumentalapp.com',
+  enabled: INSTRUMENTAL_ENABLED === 'false' ? false : true,
+  timeout: isNaN(parsedTimeout) ? 10000 : parsedTimeout
+})
 
 class KafkaClient {
   static getNewProducer({
@@ -90,7 +109,7 @@ class KafkaClient {
       fetchMinBytes,
       fetchMaxBytes,
       encoding
-    })
+    }, I)
   }
 }
 

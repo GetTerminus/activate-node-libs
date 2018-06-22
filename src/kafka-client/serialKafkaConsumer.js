@@ -5,7 +5,6 @@ const kafka = require('kafka-node')
 
 // Size constants
 const KB = 1024
-const MB = KB * KB
 
 // Events emitted
 // ready -> ()
@@ -29,7 +28,7 @@ class SerialKafkaConsumer extends EventEmitter {
     fetchMinBytes = 1,
     fetchMaxBytes = 50 * KB,
     encoding = 'utf8'
-  }) {
+  }, I = null) {
     super()
 
     // Check to make sure we actually have topics, otherwise we can't do anything
@@ -43,6 +42,9 @@ class SerialKafkaConsumer extends EventEmitter {
     } else {
       this.topics = topics.map((topic) => topic.split(',')).reduce((a, v) => a.concat(v), [])
     }
+
+    // Set Instrumental object
+    this.I = I
 
     // Create consumer group options
     this.options = {
@@ -97,6 +99,12 @@ class SerialKafkaConsumer extends EventEmitter {
     })
   }
 
+  _increment(topic, group, type) {
+    if (this.I) {
+      this.I.increment(`${topic}.${group}.${type}`)
+    }
+  }
+
   on(type) {
     super.on.apply(this, arguments)
     if (type === 'message') {
@@ -125,6 +133,7 @@ class SerialKafkaConsumer extends EventEmitter {
   onMessage(message) {
     // this.consumerGroup.pause()
     if (message) {
+      this._increment(message.topic, this.options.groupId, 'consumed')
       this.queue.push(message, _.noop)
     }
   }
@@ -159,6 +168,7 @@ class SerialKafkaConsumer extends EventEmitter {
   // The message succeeded, emit ack event and keep going
   ack(msg, cb) {
     return () => {
+      this._increment(msg.topic, this.options.groupId, 'ack')
       this.emit('ack', msg)
       cb()
     }
@@ -167,6 +177,7 @@ class SerialKafkaConsumer extends EventEmitter {
   // The message failed, emit nack event and keep going
   nack(msg, cb) {
     return (err) => {
+      this._increment(msg.topic, this.options.groupId, 'nack')
       this.emit('nack', { message: msg, error: err })
       cb()
     }
