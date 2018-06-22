@@ -27,7 +27,7 @@ class SerialKafkaConsumer extends EventEmitter {
     autoCommitInterval = 5000,
     fetchMaxWait = 100,
     fetchMinBytes = 1,
-    fetchMaxBytes = 50 * KB,
+    fetchMaxBytes = MB,
     encoding = 'utf8'
   }) {
     super()
