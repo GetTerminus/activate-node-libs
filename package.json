@@ -1,5 +1,4 @@
 {
-  "author": "",
   "dependencies": {
     "async": "^2.6.1",
     "chalk": "^2.4.1",
@@ -9,7 +8,7 @@
     "moment": "^2.22.1",
     "redis": "^2.8.0"
   },
-  "description": "### collection of reusable node libraries",
+  "description": "Collection of Node libraries used by some Active projects",
   "devDependencies": {
     "babel-eslint": "^8.2.3",
     "eslint": "^4.19.1",
@@ -19,16 +18,15 @@
     "eslint-plugin-react": "^7.7.0",
     "mocha": "^6.0.0"
   },
-  "homepage": "https://bitbucket.org/sigstr/node-libs#readme",
-  "license": "ISC",
+  "license": "UNLICENSED",
   "main": "index.js",
-  "name": "sigstr-node-libs",
+  "name": "active-node-libs",
   "repository": {
     "type": "git",
-    "url": "git+https://Austen_Lacy@bitbucket.org/sigstr/node-libs.git"
+    "url": "git@github.com:GetTerminus/activate-node-libs.git"
   },
   "scripts": {
     "test-logger": "cd ./src/logger && mocha && cd ../../"
   },
-  "version": "1.0.0"
+  "version": "1.0.1"
 }
