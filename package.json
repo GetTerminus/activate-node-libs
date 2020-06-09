@@ -20,10 +20,10 @@
   },
   "license": "UNLICENSED",
   "main": "index.js",
-  "name": "active-node-libs",
+  "name": "activate-node-libs",
   "repository": {
     "type": "git",
-    "url": "git@github.com:GetTerminus/activate-node-libs.git"
+    "url": "git+https://git@github.com:GetTerminus/activate-node-libs.git"
   },
   "scripts": {
     "test-logger": "cd ./src/logger && mocha && cd ../../"
