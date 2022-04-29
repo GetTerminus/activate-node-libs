@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "async": "^2.6.1",
+    "async": "^2.6.4",
     "chalk": "^2.4.1",
     "honeybadger": "^1.4.0",
     "kafka-node": "^2.6.1",
