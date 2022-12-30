@@ -16,7 +16,7 @@
     "eslint-plugin-import": "^1.14.0",
     "eslint-plugin-jsx-a11y": "^2.2.1",
     "eslint-plugin-react": "^7.7.0",
-    "mocha": "^6.0.0"
+    "mocha": "^10.2.0"
   },
   "license": "UNLICENSED",
   "main": "index.js",
